@@ -1,7 +1,8 @@
-
 # URL-Shortener
 
 The `url-shortener` is a TypeScript based application that allows users to convert long URLs into easy-to-share links. 
+
+<img src="https://url-shortener-images.s3.eu-central-1.amazonaws.com/url-shortener.webp" alt="URL Shortener Illustration" width="300"/>
 
 ## Features
 
