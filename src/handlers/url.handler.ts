@@ -16,9 +16,7 @@ const getUrl = async (req: Request, res: Response) => {
                 error: "URL not found",
             });
         }
-        return res.send({
-            message: `Redirecting to ${url}`,
-        });
+        return res.redirect(url);
     } catch (error) {
         return res.status(500).send({
             error: "Something went wrong, please try again later",
