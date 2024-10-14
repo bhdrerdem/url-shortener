@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { createTinyUrl, getLongUrl } from "../services/urlService";
-import { sendClickEvent } from "../services/event.service";
+import { createTinyUrl, getLongUrl } from "../services/url.service";
+import { sendMetric } from "../services/url-metric.service";
 
 const getUrl = async (req: Request, res: Response) => {
   const id = req.params.id;
@@ -13,8 +13,7 @@ const getUrl = async (req: Request, res: Response) => {
       });
     }
 
-    sendClickEvent(
-      id,
+    sendMetric(
       url,
       req?.clientIp,
       req?.headers["user-agent"],
@@ -48,9 +47,7 @@ const createUrl = (host: string) => async (req: Request, res: Response) => {
 
   try {
     const tinyUrl = await createTinyUrl(url);
-    return res.send({
-      tinyUrl: `${host}/${tinyUrl}`,
-    });
+    return res.send(tinyUrl.toJSON());
   } catch (error) {
     return res.status(500).send({
       error: "Something went wrong, please try again later",

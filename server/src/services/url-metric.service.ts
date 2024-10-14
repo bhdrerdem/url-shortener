@@ -1,10 +1,9 @@
-import ClickEvent, { IClickEvent } from "../models/ClickEvent";
+import UrlMetric, { IUrlMetric } from "../models/UrlMetric.model";
 import { Mongo } from "../storage/mongo";
 import geoip from "geoip-lite";
 
-const sendClickEvent = async (
-  tinyUrl: string,
-  originalUrl: string,
+const sendMetric = async (
+  urlId: string,
   ip?: string,
   userAgent?: string,
   referrer?: string
@@ -19,9 +18,8 @@ const sendClickEvent = async (
     }
   }
 
-  const event: IClickEvent = {
-    tinyUrl: tinyUrl,
-    originalUrl: originalUrl,
+  const event: IUrlMetric = {
+    url: urlId,
     timestamp: new Date(),
     ipAddress: ip,
     userAgent: userAgent,
@@ -32,8 +30,8 @@ const sendClickEvent = async (
     },
   };
 
-  const clickEvent = new ClickEvent(event);
+  const clickEvent = new UrlMetric(event);
   await clickEvent.save();
 };
 
-export { sendClickEvent };
+export { sendMetric };

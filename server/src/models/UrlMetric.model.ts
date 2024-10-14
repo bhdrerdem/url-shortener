@@ -1,8 +1,8 @@
 import mongoose, { Document, ObjectId, Schema } from "mongoose";
+import { IUrl } from "./Url.model";
 
-export interface IClickEvent {
-  tinyUrl: string;
-  originalUrl: string;
+export interface IUrlMetric {
+  url: string | IUrl;
   timestamp: Date;
   ipAddress?: string;
   userAgent?: string;
@@ -13,9 +13,8 @@ export interface IClickEvent {
   };
 }
 
-const ClickEventSchema: Schema = new mongoose.Schema({
-  tinyUrl: { type: String, required: true },
-  originalUrl: { type: String, required: true },
+const UrlMetricSchema: Schema = new mongoose.Schema({
+  url: { type: Schema.Types.String, ref: "Url", required: true },
   timestamp: { type: Date, default: Date.now },
   ipAddress: { type: String },
   userAgent: { type: String },
@@ -26,5 +25,5 @@ const ClickEventSchema: Schema = new mongoose.Schema({
   },
 });
 
-const ClickEvent = mongoose.model<IClickEvent>("ClickEvent", ClickEventSchema);
-export default ClickEvent;
+const UrlMetric = mongoose.model<IUrlMetric>("UrlMetric", UrlMetricSchema);
+export default UrlMetric;

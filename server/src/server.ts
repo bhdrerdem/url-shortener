@@ -1,8 +1,8 @@
-import express, { Express, Request, Response } from "express";
+import express from "express";
 import { Redis } from "./storage/redis";
 import { DB } from "./storage/db";
 import rateLimiter from "./middleware/rateLimiter";
-import { IDGeneratorService } from "./services/idGeneratorService";
+import { IDGeneratorService } from "./services/id-generator.service";
 import { createUrl, getUrl } from "./handlers/url.handler";
 import cors from "cors";
 import { Config } from "./config/default";
