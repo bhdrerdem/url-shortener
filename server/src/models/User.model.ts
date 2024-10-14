@@ -4,7 +4,7 @@ import { IAuthInfo } from "./AuthInfo.model";
 export interface IUser extends Document {
   _id: ObjectId;
   email: string;
-  authInfo: IAuthInfo;
+  authInfo: mongoose.Schema.Types.ObjectId | IAuthInfo;
   createdAt: Date;
   updatedAt: Date;
 }

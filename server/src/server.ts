@@ -1,13 +1,13 @@
-import express from "express";
+import express, { Express, Request, Response } from "express";
 import { Redis } from "./storage/redis";
-import { DB } from "./storage/db";
 import rateLimiter from "./middleware/rateLimiter";
-import { IDGeneratorService } from "./services/id-generator.service";
 import { createUrl, getUrl } from "./handlers/url.handler";
 import cors from "cors";
 import { Config } from "./config/default";
 import { Mongo } from "./storage/mongo";
 import requestIp from "request-ip";
+import { IDGeneratorService } from "./services/id-generator.service";
+import { login, register } from "./handlers/auth.handler";
 
 export class Server {
   private config: Config;
@@ -18,11 +18,11 @@ export class Server {
 
   public async run() {
     await Redis.init(this.config.redis);
-    await DB.init(this.config.db);
+    //await DB.init(this.config.db);
     await Mongo.init(this.config.mongo);
 
     const redis = Redis.getInstance();
-    const db = DB.getInstance();
+    //const db = DB.getInstance();
     const mongo = Mongo.getInstance();
 
     setInterval(async () => {
@@ -37,20 +37,20 @@ export class Server {
       }
     }, 10000);
 
-    setInterval(async () => {
-      try {
-        if (!db.getHealthCheck()) {
-          console.log("Database is not healthy, attempting to reconnect...");
-          await db.connect();
-        }
-        await db.ping();
-      } catch (error) {
-        console.error(
-          "Error during database health check or reconnect:",
-          error
-        );
-      }
-    }, 10000);
+    // setInterval(async () => {
+    //   try {
+    //     if (!db.getHealthCheck()) {
+    //       console.log("Database is not healthy, attempting to reconnect...");
+    //       await db.connect();
+    //     }
+    //     await db.ping();
+    //   } catch (error) {
+    //     console.error(
+    //       "Error during database health check or reconnect:",
+    //       error
+    //     );
+    //   }
+    // }, 10000);
 
     setInterval(async () => {
       try {
@@ -78,8 +78,10 @@ export class Server {
     app.use(requestIp.mw());
     app.use(rateLimiter);
 
-    app.get("/:id", getUrl);
-    app.post("/", createUrl(this.config.host));
+    app.get("/urls/:id", getUrl);
+    app.post("urls/", createUrl(this.config.host));
+    app.post("/auth/login", login);
+    app.post("/auth/register", register);
 
     app.listen(port, () => {
       console.log(`Server is running at ${this.config.host}`);

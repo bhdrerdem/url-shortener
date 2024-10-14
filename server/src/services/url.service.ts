@@ -1,6 +1,5 @@
 import Url, { IUrl } from "../models/Url.model";
 import { IUser } from "../models/User.model";
-import { DB } from "../storage/db";
 import { Redis } from "../storage/redis";
 import { convertToBase62 } from "../utils/helper";
 import { IDGeneratorService } from "./id-generator.service";

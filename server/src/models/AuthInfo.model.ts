@@ -1,13 +1,13 @@
 import mongoose, { Document, ObjectId, Schema } from "mongoose";
 
-export enum Provider {
+export enum AuthProvider {
   GOOGLE = "google",
   LOCAL = "local",
 }
 
 export interface IAuthInfo extends Document {
   _id: ObjectId;
-  provider: Provider;
+  provider: AuthProvider;
   providerId: string;
   password?: string | null;
   createdAt: Date;
