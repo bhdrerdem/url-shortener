@@ -41,7 +41,7 @@ const isValidUrl = (url: string): boolean => {
   return urlPattern.test(url);
 };
 
-const Main: React.FC = () => {
+const Home: React.FC = () => {
   const [tinyUrl, setTinyUrl] = React.useState("");
   const [longUrl, setLongUrl] = React.useState("");
   const [error, setError] = React.useState("");
@@ -198,4 +198,4 @@ const Main: React.FC = () => {
   );
 };
 
-export default Main;
+export default Home;
