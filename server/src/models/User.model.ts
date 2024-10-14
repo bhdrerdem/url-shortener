@@ -12,7 +12,7 @@ export interface IUser extends Document {
 const UserSchema: Schema = new mongoose.Schema(
   {
     email: { type: String, required: true, unique: true },
-    authInfo: { type: Schema.Types.ObjectId, ref: "AuthInfo", required: true },
+    authInfo: { type: Schema.Types.ObjectId, ref: "AuthInfo" },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
   },

@@ -1,4 +1,5 @@
 import mongoose, { Document, ObjectId, Schema } from "mongoose";
+import { IUser } from "./User.model";
 
 export enum AuthProvider {
   GOOGLE = "google",
@@ -10,6 +11,7 @@ export interface IAuthInfo extends Document {
   provider: AuthProvider;
   providerId: string;
   password?: string | null;
+  user: mongoose.Types.ObjectId | IUser;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -19,6 +21,11 @@ const AuthInfoSchema: Schema = new mongoose.Schema(
     provider: { type: String, required: true },
     providerId: { type: String, required: true },
     password: { type: String },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
   },

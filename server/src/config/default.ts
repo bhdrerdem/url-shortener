@@ -21,6 +21,12 @@ export type IDGeneratorConfig = {
   machineId: number;
 };
 
+export type GoogleAuthConfig = {
+  clientId: string;
+  clientSecret: string;
+  redirectUri: string;
+};
+
 export type Config = {
   port: number;
   db: DBConfig;
@@ -28,6 +34,7 @@ export type Config = {
   mongo: MongoConfig;
   idGeneratorConfig: IDGeneratorConfig;
   host: string;
+  googleAuthConfig: GoogleAuthConfig;
 };
 
 export default {
@@ -49,4 +56,11 @@ export default {
     machineId: parseInt(process.env.MACHINE_ID || "1"),
   } as IDGeneratorConfig,
   host: process.env.HOST || "http://localhost:3001",
+  googleAuthConfig: {
+    clientId: process.env.GOOGLE_CLIENT_ID || "",
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+    redirectUri:
+      process.env.GOOGLE_REDIRECT_URI ||
+      "http://localhost:3001/auth/google/callback",
+  } as GoogleAuthConfig,
 } as Config;

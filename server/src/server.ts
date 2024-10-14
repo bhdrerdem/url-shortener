@@ -7,7 +7,12 @@ import { Config } from "./config/default";
 import { Mongo } from "./storage/mongo";
 import requestIp from "request-ip";
 import { IDGeneratorService } from "./services/id-generator.service";
-import { login, register } from "./handlers/auth.handler";
+import {
+  handleGoogleAuth,
+  handleGoogleAuthCallback,
+  login,
+  register,
+} from "./handlers/auth.handler";
 
 export class Server {
   private config: Config;
@@ -82,6 +87,8 @@ export class Server {
     app.post("urls/", createUrl(this.config.host));
     app.post("/auth/login", login);
     app.post("/auth/register", register);
+    app.get("/auth/google", handleGoogleAuth);
+    app.get("/auth/google/callback", handleGoogleAuthCallback);
 
     app.listen(port, () => {
       console.log(`Server is running at ${this.config.host}`);
